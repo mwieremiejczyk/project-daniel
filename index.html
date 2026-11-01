@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PROJECT HORIZON: D.A.N.I.E.L</title>
+<meta property="og:title" content="PROJECT HORIZON: D.A.N.I.E.L">
+<meta property="og:url" content="https://project-daniel.pl">
+<meta property="og:description" content="London → Warszawa · 29.11.2026 · T-minus…">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✈️</text></svg>">
+<style>
+  :root{--a:#ff3b3b;--b:#ffd23f;--bg:#07070c}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{background:radial-gradient(ellipse at top,#1b1030 0%,var(--bg) 60%);color:#fff;
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;text-align:center;overflow:hidden;padding:24px}
+  canvas{position:fixed;inset:0;z-index:-1}
+  .tag{letter-spacing:.5em;font-size:.8rem;color:var(--b);text-transform:uppercase;opacity:.85}
+  h1{font-size:clamp(2.6rem,10vw,7rem);font-weight:900;line-height:.95;margin:.1em 0 .25em;letter-spacing:.04em;
+    background:linear-gradient(90deg,var(--a),var(--b),var(--a));background-size:200%;
+    -webkit-background-clip:text;background-clip:text;color:transparent;animation:sh 6s linear infinite;
+    text-shadow:0 0 60px rgba(255,59,59,.25)}
+  @keyframes sh{to{background-position:200%}}
+  .ph{font-size:clamp(1.1rem,4vw,2rem);font-weight:300;letter-spacing:.6em;margin-top:1.2rem;margin-right:-.6em;opacity:.9}
+  .acr{font-size:clamp(.8rem,2.4vw,1.05rem);letter-spacing:.15em;text-transform:uppercase;opacity:.7;margin-bottom:.8rem}
+  .acr b{color:var(--b);font-weight:900}
+  .sub{font-size:clamp(1rem,3vw,1.4rem);opacity:.8;margin-bottom:2.2rem}
+  .route{display:flex;align-items:center;gap:14px;justify-content:center;font-weight:800;
+    font-size:clamp(1rem,3.5vw,1.6rem);margin-bottom:2.5rem;width:min(640px,100%)}
+  .line{flex:1;height:2px;background:repeating-linear-gradient(90deg,#fff6 0 8px,transparent 8px 16px);position:relative}
+  .plane{position:absolute;top:-.8em;font-size:1.4em;transform:translateX(-50%);transition:left 1s}
+  .cd{display:flex;gap:clamp(10px,3vw,28px);justify-content:center}
+  .u{min-width:clamp(70px,18vw,140px);padding:18px 8px;border-radius:18px;background:#ffffff0d;
+    border:1px solid #ffffff1f;backdrop-filter:blur(6px)}
+  .n{font-size:clamp(2.2rem,9vw,5rem);font-weight:900;font-variant-numeric:tabular-nums}
+  .l{font-size:.75rem;letter-spacing:.3em;opacity:.6;text-transform:uppercase}
+  .foot{margin-top:2.5rem;opacity:.5;font-size:.85rem}
+  .done h1{animation:sh 1.2s linear infinite}
+</style>
+</head>
+<body>
+<canvas id="s"></canvas>
+<div class="tag">Top secret · ściśle tajne · clearance level: wódka</div>
+<div class="ph">PROJECT HORIZON</div>
+<h1>D.A.N.I.E.L</h1>
+<div class="acr"><b>D</b>irect <b>A</b>rrival <b>N</b>a <b>I</b>mprezę <b>E</b>kstremalnie <b>L</b>egendarną</div>
+<div class="sub" id="sub">Polska, przygotuj się. Nadchodzi.</div>
+<div class="route"><span>🇬🇧 LONDON</span><div class="line"><span class="plane" id="pl">✈️</span></div><span>WARSZAWA 🇵🇱</span></div>
+<div class="cd" id="cd">
+  <div class="u"><div class="n" id="d">--</div><div class="l">dni</div></div>
+  <div class="u"><div class="n" id="h">--</div><div class="l">hours</div></div>
+  <div class="u"><div class="n" id="m">--</div><div class="l">minut</div></div>
+  <div class="u"><div class="n" id="sec">--</div><div class="l">seconds</div></div>
+</div>
+<div class="foot">29.11.2026 · No more fish &amp; chips, czas na pierogi.</div>
+<script>
+// Cel: 29.11.2026 00:00 czasu warszawskiego. Godzinę lądowania zmień tutaj.
+const T=new Date("2026-11-29T00:00:00+01:00").getTime(),S=new Date("2026-11-01T00:00:00+01:00").getTime();
+const $=id=>document.getElementById(id),p=n=>String(n).padStart(2,"0");
+function tick(){
+  let r=T-Date.now();
+  $("pl").style.left=Math.min(100,Math.max(0,(Date.now()-S)/(T-S)*100))+"%";
+  if(r<=0){document.body.classList.add("done");$("cd").innerHTML='<div class="n">🍻 DANIEL IS IN DA HOUSE 🍻</div>';
+    $("sub").textContent="Witamy w Polsce, mordo. Mission accomplished.";return}
+  $("d").textContent=Math.floor(r/864e5);$("h").textContent=p(Math.floor(r/36e5)%24);
+  $("m").textContent=p(Math.floor(r/6e4)%60);$("sec").textContent=p(Math.floor(r/1e3)%60);
+  setTimeout(tick,1000-Date.now()%1000);
+}
+tick();
+// gwiazdy
+const c=$("s"),x=c.getContext("2d");let st=[];
+function rs(){c.width=innerWidth;c.height=innerHeight;st=Array.from({length:160},()=>({x:Math.random()*c.width,y:Math.random()*c.height,z:Math.random()*1.5+.3}))}
+function dr(){x.clearRect(0,0,c.width,c.height);for(const s of st){s.x-=s.z*.4;if(s.x<0)s.x=c.width;
+  x.fillStyle=`rgba(255,255,255,${s.z/2})`;x.fillRect(s.x,s.y,s.z,s.z)}requestAnimationFrame(dr)}
+addEventListener("resize",rs);rs();dr();
+</script>
+</body>
+</html>
