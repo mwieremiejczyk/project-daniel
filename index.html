@@ -7,6 +7,12 @@
 <meta property="og:title" content="PROJECT HORIZON: D.A.N.I.E.L">
 <meta property="og:url" content="https://project-daniel.pl">
 <meta property="og:description" content="London → Warszawa · 29.11.2026 · T-minus…">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://project-daniel.pl/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#07070c">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✈️</text></svg>">
 <style>
   :root{--a:#ff3b3b;--b:#ffd23f;--bg:#07070c}
@@ -29,7 +35,23 @@
   .route{display:flex;align-items:center;gap:14px;justify-content:center;font-weight:800;
     font-size:clamp(1rem,3.5vw,1.6rem);margin-bottom:2.5rem;width:min(640px,100%)}
   .line{flex:1;height:2px;background:repeating-linear-gradient(90deg,#fff6 0 8px,transparent 8px 16px);position:relative}
-  .plane{position:absolute;top:-.8em;font-size:1.4em;transform:translateX(-50%);transition:left 1s}
+  .plane{position:absolute;top:-.6em;transform:translateX(-50%);transition:left 1s;line-height:0}
+  .city{display:inline-flex;align-items:center;gap:.45em}
+  .flag{width:1.6em;height:auto;border-radius:3px;box-shadow:0 0 0 1px #fff3}
+  h1{position:relative}
+  .done h1::before,.done h1::after{content:attr(data-t);position:absolute;inset:0;-webkit-text-fill-color:currentColor;
+    background:none;text-shadow:none;pointer-events:none}
+  .done h1::before{color:#0ff;mix-blend-mode:screen;animation:g1 .9s infinite steps(2)}
+  .done h1::after{color:#f0f;mix-blend-mode:screen;animation:g2 .7s infinite steps(2)}
+  @keyframes g1{0%{transform:translate(0);clip-path:inset(0 0 70% 0)}25%{transform:translate(-6px,2px);clip-path:inset(40% 0 30% 0)}
+    50%{transform:translate(5px,-2px);clip-path:inset(75% 0 5% 0)}75%{transform:translate(-3px,1px);clip-path:inset(10% 0 60% 0)}100%{transform:translate(0);clip-path:inset(0 0 100% 0)}}
+  @keyframes g2{0%{transform:translate(0);clip-path:inset(60% 0 10% 0)}33%{transform:translate(6px,-1px);clip-path:inset(20% 0 55% 0)}
+    66%{transform:translate(-5px,2px);clip-path:inset(85% 0 0 0)}100%{transform:translate(0);clip-path:inset(0 0 100% 0)}}
+  .win{font-size:clamp(1.6rem,7vw,4.5rem);font-weight:900;line-height:1.1;animation:pulse 1s ease-in-out infinite alternate}
+  @keyframes pulse{to{transform:scale(1.06);text-shadow:0 0 40px #ffd23f88}}
+  #snd{margin-top:1.5rem;padding:.8em 1.6em;font:800 1rem system-ui;letter-spacing:.15em;color:#07070c;background:var(--b);
+    border:0;border-radius:999px;cursor:pointer;box-shadow:0 0 30px #ffd23f66}
+  #fx{position:fixed;inset:0;pointer-events:none;z-index:5}
   .cd{display:flex;gap:clamp(10px,3vw,28px);justify-content:center}
   .u{min-width:clamp(70px,18vw,140px);padding:18px 8px;border-radius:18px;background:#ffffff0d;
     border:1px solid #ffffff1f;backdrop-filter:blur(6px)}
@@ -40,13 +62,13 @@
 </style>
 </head>
 <body>
-<canvas id="s"></canvas>
+<canvas id="s"></canvas><canvas id="fx"></canvas>
 <div class="tag">Top secret · ściśle tajne · clearance level: wódka</div>
 <div class="ph">PROJECT HORIZON</div>
-<h1>D.A.N.I.E.L</h1>
+<h1 data-t="D.A.N.I.E.L">D.A.N.I.E.L</h1>
 <div class="acr"><b>D</b>irect <b>A</b>rrival <b>N</b>a <b>I</b>mprezę <b>E</b>kstremalnie <b>L</b>egendarną</div>
 <div class="sub" id="sub">Polska, przygotuj się. Nadchodzi.</div>
-<div class="route"><span>🇬🇧 LONDON</span><div class="line"><span class="plane" id="pl">✈️</span></div><span>WARSZAWA 🇵🇱</span></div>
+<div class="route"><span class="city"><svg class="flag" viewBox="0 0 60 30" aria-label="UK"><clipPath id="t"><path d="M30,15h30v15zv15h-30zh-30v-15zv-15h30z"/></clipPath><path d="M0,0v30h60v-30z" fill="#012169"/><path d="M0,0 60,30M60,0 0,30" stroke="#fff" stroke-width="6"/><path d="M0,0 60,30M60,0 0,30" clip-path="url(#t)" stroke="#C8102E" stroke-width="4"/><path d="M30,0v30M0,15h60" stroke="#fff" stroke-width="10"/><path d="M30,0v30M0,15h60" stroke="#C8102E" stroke-width="6"/></svg>LONDON</span><div class="line"><span class="plane" id="pl"><svg viewBox="-40 -30 80 60" width="1.6em" height="1.2em"><path fill="#ffd23f" d="M36,0 26,-5H-22L-30,-14H-36L-30,-4V4L-36,14H-30L-22,5H26ZM8,-4-6,-28H-14L-6,-4ZM8,4-6,28H-14L-6,4Z"/></svg></span></div><span class="city">WARSZAWA<svg class="flag" viewBox="0 0 16 10" aria-label="PL"><rect width="16" height="5" fill="#fff"/><rect y="5" width="16" height="5" fill="#DC143C"/></svg></span></div>
 <div class="cd" id="cd">
   <div class="u"><div class="n" id="d">--</div><div class="l">dni</div></div>
   <div class="u"><div class="n" id="h">--</div><div class="l">hours</div></div>
@@ -55,17 +77,46 @@
 </div>
 <div class="foot">29.11.2026 · No more fish &amp; chips, czas na pierogi.</div>
 <script>
-// Cel: 29.11.2026 00:00 czasu warszawskiego. Godzinę lądowania zmień tutaj.
-const T=new Date("2026-11-29T00:00:00+01:00").getTime(),S=new Date("2026-11-01T00:00:00+01:00").getTime();
+// Cel: 29.11.2026 00:00 czasu warszawskiego. Godzinę lądowania zmień tutaj. Test finału: ?test=10 (sekund).
+const q=+new URLSearchParams(location.search).get("test");
+const T=q?Date.now()+q*1000:new Date("2026-11-29T00:00:00+01:00").getTime(),S=q?Date.now()-60000:new Date("2026-11-01T00:00:00+01:00").getTime();
 const $=id=>document.getElementById(id),p=n=>String(n).padStart(2,"0");
 function tick(){
   let r=T-Date.now();
   $("pl").style.left=Math.min(100,Math.max(0,(Date.now()-S)/(T-S)*100))+"%";
-  if(r<=0){document.body.classList.add("done");$("cd").innerHTML='<div class="n">🍻 DANIEL IS IN DA HOUSE 🍻</div>';
-    $("sub").textContent="Witamy w Polsce, mordo. Mission accomplished.";return}
+  if(r<=0){finale();return}
   $("d").textContent=Math.floor(r/864e5);$("h").textContent=p(Math.floor(r/36e5)%24);
   $("m").textContent=p(Math.floor(r/6e4)%60);$("sec").textContent=p(Math.floor(r/1e3)%60);
   setTimeout(tick,1000-Date.now()%1000);
+}
+function finale(){
+  document.body.classList.add("done");document.title="🍻 DANIEL IS IN DA HOUSE";
+  $("cd").innerHTML='<div><div class="win">🍻 DANIEL IS IN DA HOUSE 🍻</div><button id="snd">🔊 TOUCHDOWN</button></div>';
+  $("sub").textContent="Witamy w Polsce, mordo. Mission accomplished.";
+  $("snd").onclick=landing;confetti();
+}
+// konfetti
+function confetti(){
+  const c=$("fx"),x=c.getContext("2d"),C=["#ff3b3b","#ffd23f","#fff","#DC143C","#012169","#0ff"];let P=[],t0=performance.now();
+  const fit=()=>{c.width=innerWidth;c.height=innerHeight};fit();addEventListener("resize",fit);
+  const burst=n=>{for(let i=0;i<n;i++)P.push({x:Math.random()*c.width,y:-20-Math.random()*c.height*.5,vx:(Math.random()-.5)*3,
+    vy:2+Math.random()*3,r:Math.random()*6.28,vr:(Math.random()-.5)*.3,w:6+Math.random()*6,h:8+Math.random()*10,c:C[i%C.length]})};
+  burst(260);setInterval(()=>burst(60),4000);
+  (function f(){x.clearRect(0,0,c.width,c.height);P=P.filter(o=>o.y<c.height+30);
+    for(const o of P){o.x+=o.vx+Math.sin((o.y+o.r*50)/60);o.y+=o.vy;o.r+=o.vr;x.save();x.translate(o.x,o.y);x.rotate(o.r);
+      x.fillStyle=o.c;x.fillRect(-o.w/2,-o.h/4,o.w,o.h/2*Math.abs(Math.cos(o.r*2))+1);x.restore()}requestAnimationFrame(f)})();
+}
+// dźwięk lądowania (syntetyzowany, bez plików): przelot odrzutowca + gong lotniskowy
+function landing(){
+  const A=new (window.AudioContext||window.webkitAudioContext)(),now=A.currentTime;
+  const len=A.sampleRate*3,b=A.createBuffer(1,len,A.sampleRate),d=b.getChannelData(0);for(let i=0;i<len;i++)d[i]=Math.random()*2-1;
+  const n=A.createBufferSource();n.buffer=b;const f=A.createBiquadFilter();f.type="bandpass";f.Q.value=.8;
+  f.frequency.setValueAtTime(300,now);f.frequency.exponentialRampToValueAtTime(2500,now+1.2);f.frequency.exponentialRampToValueAtTime(200,now+3);
+  const g=A.createGain();g.gain.setValueAtTime(0,now);g.gain.linearRampToValueAtTime(.6,now+1.2);g.gain.exponentialRampToValueAtTime(.001,now+3);
+  n.connect(f).connect(g).connect(A.destination);n.start(now);
+  [[659.3,3.2],[523.3,3.7],[392,4.2]].forEach(([hz,t])=>{const o=A.createOscillator(),v=A.createGain();o.type="sine";o.frequency.value=hz;
+    v.gain.setValueAtTime(0,now+t);v.gain.linearRampToValueAtTime(.35,now+t+.02);v.gain.exponentialRampToValueAtTime(.001,now+t+1.6);
+    o.connect(v).connect(A.destination);o.start(now+t);o.stop(now+t+1.7)});
 }
 tick();
 // gwiazdy
