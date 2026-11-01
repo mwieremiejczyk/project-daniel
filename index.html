@@ -70,7 +70,7 @@
   #mus.on .eq i{animation:eq .5s ease-in-out infinite alternate}
   #mus.on .eq i:nth-child(2){animation-delay:.15s}#mus.on .eq i:nth-child(3){animation-delay:.3s}
   @keyframes eq{to{height:12px}}
-  #yt{position:fixed;width:1px;height:1px;left:-10px;top:-10px;opacity:0;pointer-events:none}
+  #yt{position:fixed;width:200px;height:200px;left:0;bottom:0;opacity:.001;pointer-events:none;z-index:-2}
   /* finał – cyberpunk */
   #cy{position:fixed;inset:0;z-index:10;pointer-events:none;background:rgba(2,2,8,.94);overflow:hidden;
     font-family:"Share Tech Mono",ui-monospace,monospace;transform-origin:center}
@@ -160,7 +160,6 @@
 <div class="status" id="st"></div>
 <div class="foot">29.11.2026 · 17:25 · Stansted → Modlin · No more fish &amp; chips, czas na pierogi.</div>
 <script>
-// Cel: 29.11.2026 00:00 czasu warszawskiego. Godzinę lądowania zmień tutaj. Test finału: ?test=10 (sekund).
 const q=+new URLSearchParams(location.search).get("test");
 // FR1834: Stansted 29.11 14:10 (UK) = 15:10 PL → Modlin 17:25 PL. Powrót FR1835: 06.12 12:15 PL. Test finału: ?test=10 (sekund).
 const AFTER=new URLSearchParams(location.search).has("po");
@@ -231,6 +230,31 @@ function settle(){
         Y[i]=y*fs>cv.height&&Math.random()>.975?0:y+1})},55);
   }
 }
+// animacja tytułu: dekodowanie liter jak w filmie szpiegowskim, potem co kilka sekund glitch
+(()=>{const h=document.querySelector("h1"),F="D.A.N.I.E.L",G="#$%&@!?/<>*01XZ",B=[...document.querySelectorAll(".acr b")];
+  let lock=0,f=0;
+  const run=setInterval(()=>{f++;if(f%3===0&&lock<F.length){if(F[lock]!==".")flash(B[[...F.slice(0,lock)].filter(c=>c!==".").length]);lock++}
+    h.textContent=[...F].map((c,i)=>i<lock||c==="."?c:G[Math.random()*G.length|0]).join("");
+    if(lock>=F.length){clearInterval(run);h.textContent=F;glitch(500);setInterval(()=>glitch(220+Math.random()*250),5000+Math.random()*3000)}},45);
+  function flash(b){if(!b)return;b.classList.add("hit");setTimeout(()=>b.classList.remove("hit"),900)}
+  function glitch(ms){h.classList.add("gl");setTimeout(()=>h.classList.remove("gl"),ms)}
+})();
+// muzyka: YouTube. Autostart próbujemy, ale przeglądarki go blokują (albo puszczają wyciszony) – wtedy start przy pierwszym
+// kliknięciu/dotknięciu gdziekolwiek. Na telefonie liczy się dopiero touchend/click (pointerdown nie odblokowuje dźwięku).
+let yt,ytReady=false,userPaused=false;
+const audible=()=>ytReady&&yt.getPlayerState()===1&&!yt.isMuted();
+const play=()=>{if(!ytReady)return;yt.unMute();yt.setVolume(70);yt.playVideo()};
+const ui=()=>{const on=audible();$("mus").classList.toggle("on",on);$("mus").classList.toggle("hint",!on&&!userPaused);$("mt").textContent=on?"PAUSE":"SOUNDTRACK";
+  if(on)EV.forEach(t=>removeEventListener(t,first,true))};
+window.onYouTubeIframeAPIReady=()=>{yt=new YT.Player("yt",{videoId:"yuKU-Vcwspk",width:200,height:200,
+  playerVars:{loop:1,playlist:"yuKU-Vcwspk",controls:0,playsinline:1},
+  events:{onReady:()=>{ytReady=true;play();setTimeout(ui,800)},onStateChange:()=>setTimeout(ui,50)}})};
+(()=>{const t=document.createElement("script");t.src="https://www.youtube.com/iframe_api";document.head.append(t)})();
+$("mus").classList.add("hint");
+$("mus").onclick=e=>{e.stopPropagation();if(audible()){userPaused=true;yt.pauseVideo()}else{userPaused=false;play()}};
+const EV=["click","touchend","keydown"];
+function first(e){if($("mus").contains(e.target)||userPaused)return;if(!audible())play()}
+EV.forEach(t=>addEventListener(t,first,true));
 function confetti(boom){
   const c=$("fx"),x=c.getContext("2d"),C=["#ff2a6d","#05d9e8","#f9f002","#39ff14","#d1f7ff","#ffd23f"];let P=[];
   const fit=()=>{c.width=innerWidth;c.height=innerHeight};fit();addEventListener("resize",fit);
