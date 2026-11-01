@@ -120,6 +120,26 @@
   @keyframes blink{50%{border-color:#ffd23f;box-shadow:0 0 24px #ffd23f55}}
   .foot{margin-top:1.5rem;opacity:.5;font-size:.85rem}
   .done h1{animation:sh 1.2s linear infinite}
+  /* ekran po lądowaniu – cyberpunk na stałe */
+  body.done{--a:#ff2a6d;--b:#05d9e8;background:radial-gradient(ellipse at top,#1a0420 0%,#020208 65%);padding-top:64px}
+  .done #s{display:none}
+  #rn{position:fixed;inset:0;z-index:-1;opacity:.32}
+  body.done::after{content:"";position:fixed;inset:0;z-index:4;pointer-events:none;
+    background:repeating-linear-gradient(0deg,rgba(0,0,0,.28) 0 2px,transparent 2px 4px);animation:scan 8s linear infinite}
+  .done .tag,.done .acr,.done .sub,.done .foot{font-family:"Share Tech Mono",ui-monospace,monospace}
+  .done .ph{font-family:"Orbitron",system-ui;font-weight:900;color:#05d9e8;text-shadow:0 0 12px #05d9e8}
+  .done h1{font-family:"Orbitron",system-ui;filter:drop-shadow(0 0 18px #ff2a6d)}
+  .done .win{font-family:"Orbitron",system-ui;color:#ff2a6d;
+    text-shadow:0 0 6px #fff,0 0 18px #ff2a6d,0 0 50px #ff2a6d;animation:neon 4s linear infinite}
+  @keyframes neon{0%,18%,22%,62%,64%,100%{opacity:1}20%,63%{opacity:.25}}
+  .done .status{font-family:"Share Tech Mono",monospace;color:#05d9e8;border-color:#05d9e866;background:#05d9e810;
+    box-shadow:0 0 20px #05d9e833,inset 0 0 20px #05d9e822}
+  .done #snd{background:#ff2a6d;color:#fff;font-family:"Orbitron",system-ui;box-shadow:0 0 30px #ff2a6daa}
+  .done .plane path{fill:#05d9e8}
+  .ctape{position:fixed;top:0;left:0;right:0;height:34px;z-index:6;overflow:hidden;display:flex;align-items:center;
+    background:repeating-linear-gradient(45deg,#f9f002 0 20px,#111 20px 40px);box-shadow:0 0 24px #f9f00266}
+  .ctape span{white-space:nowrap;background:#f9f002;color:#000;font:900 .85rem/34px "Orbitron",sans-serif;letter-spacing:.3em;padding:0 1em;animation:mq 14s linear infinite}
+
 </style>
 </head>
 <body>
@@ -204,6 +224,14 @@ function settle(){
   $("st").innerHTML=left>0?"🇵🇱 STATUS: ON THE GROUND · powrót FR1835 06.12"+(dd>0?" · zostało "+dd+(dd===1?" dzień":" dni"):""):"🇬🇧 STATUS: BACK IN LONDON";
   $("st").classList.remove("air");
   $("snd").onclick=landing;
+  if(!$("rn")){
+    document.body.insertAdjacentHTML("afterbegin",'<div class="ctape"><span>'+"⚠ DANIEL IS IN DA HOUSE ⚠ FR1834 LANDED ⚠ MODLIN ⚠ NAJEBANY IS EXPECTED LATER ".repeat(6)+'</span></div><canvas id="rn"></canvas>');
+    const cv=$("rn"),cx=cv.getContext("2d"),fs=16,G="アイウエオカキクケコサシスセソタチツテトナニヌネノ0123456789DANIEL";let Y=[];
+    const fit=()=>{cv.width=innerWidth;cv.height=innerHeight;Y=Array(Math.ceil(cv.width/fs)).fill(0).map(()=>Math.random()*-60)};fit();addEventListener("resize",fit);
+    setInterval(()=>{cx.fillStyle="rgba(2,2,8,.1)";cx.fillRect(0,0,cv.width,cv.height);cx.font=fs+"px monospace";
+      Y.forEach((y,i)=>{cx.fillStyle=Math.random()<.03?"#fff":(i%4?"#05d9e8":"#ff2a6d");cx.fillText(G[Math.random()*G.length|0],i*fs,y*fs);
+        Y[i]=y*fs>cv.height&&Math.random()>.975?0:y+1})},55);
+  }
 }
 function confetti(boom){
   const c=$("fx"),x=c.getContext("2d"),C=["#ff2a6d","#05d9e8","#f9f002","#39ff14","#d1f7ff","#ffd23f"];let P=[];
