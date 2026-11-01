@@ -55,7 +55,9 @@
     50%{transform:translate(5px,-2px);clip-path:inset(75% 0 5% 0)}75%{transform:translate(-3px,1px);clip-path:inset(10% 0 60% 0)}100%{transform:translate(0);clip-path:inset(0 0 100% 0)}}
   @keyframes g2{0%{transform:translate(0);clip-path:inset(60% 0 10% 0)}33%{transform:translate(6px,-1px);clip-path:inset(20% 0 55% 0)}
     66%{transform:translate(-5px,2px);clip-path:inset(85% 0 0 0)}100%{transform:translate(0);clip-path:inset(0 0 100% 0)}}
-  .win{font-size:clamp(1.6rem,7vw,4.5rem);font-weight:900;line-height:1.1;animation:pulse 1s ease-in-out infinite alternate}
+  .win{font-size:clamp(1.6rem,7vw,4.5rem);font-weight:900;line-height:1.1;display:flex;align-items:center;justify-content:center;gap:.4em}
+  .win .wt{animation:pulse 1s ease-in-out infinite alternate}
+  .win .beer{flex:none;font-size:1.1em;text-shadow:none;animation:pulse 1s ease-in-out infinite alternate}
   @keyframes pulse{to{transform:scale(1.06);text-shadow:0 0 40px #ffd23f88}}
   #snd{margin-top:1.5rem;padding:.8em 1.6em;font:800 1rem system-ui;letter-spacing:.15em;color:#07070c;background:var(--b);
     border:0;border-radius:999px;cursor:pointer;box-shadow:0 0 30px #ffd23f66}
@@ -131,7 +133,7 @@
   .done .tag,.done .acr,.done .sub,.done .foot{font-family:"Share Tech Mono",ui-monospace,monospace}
   .done .ph{font-family:"Orbitron",system-ui;font-weight:900;color:#05d9e8;text-shadow:0 0 12px #05d9e8}
   .done h1{font-family:"Orbitron",system-ui;filter:drop-shadow(0 0 18px #ff2a6d)}
-  .done .win{font-family:"Orbitron",system-ui;color:#ff2a6d;
+  .done .win .wt{font-family:"Orbitron",system-ui;color:#ff2a6d;
     text-shadow:0 0 6px #fff,0 0 18px #ff2a6d,0 0 50px #ff2a6d;animation:neon 4s linear infinite}
   @keyframes neon{0%,18%,22%,62%,64%,100%{opacity:1}20%,63%{opacity:.25}}
   .done .status{font-family:"Share Tech Mono",monospace;color:#05d9e8;border-color:#05d9e866;background:#05d9e810;
@@ -216,7 +218,7 @@ function finale(){
 }
 function settle(){
   document.body.classList.add("done");document.title="🍻 DANIEL IS IN DA HOUSE";
-  $("cd").innerHTML='<div><div class="win">🍻 DANIEL IS IN DA HOUSE 🍻</div><button id="snd">🔊 TOUCHDOWN</button></div>';
+  $("cd").innerHTML='<div><div class="win"><span class="beer">🍻</span><span class="wt">DANIEL IS<br>IN DA HOUSE</span><span class="beer">🍻</span></div><button id="snd">🔊 TOUCHDOWN</button></div>';
   const left=BACK-(AFTER?Date.parse("2026-11-29T18:00:00+01:00"):Date.now()),dd=Math.ceil(left/864e5);
   $("sub").textContent=left>0?"Witamy w Polsce, mordo. Mission accomplished.":"Mission complete. See you next time, Daniel 🫡";
   $("st").innerHTML=left>0?"🇵🇱 STATUS: ON THE GROUND<br><span class=nw>powrót FR1835 06.12"+(dd>0?" · zostało "+dd+(dd===1?" dzień":" dni"):"")+"</span>":"🇬🇧 STATUS: BACK IN LONDON";
