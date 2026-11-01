@@ -51,6 +51,16 @@
   @keyframes pulse{to{transform:scale(1.06);text-shadow:0 0 40px #ffd23f88}}
   #snd{margin-top:1.5rem;padding:.8em 1.6em;font:800 1rem system-ui;letter-spacing:.15em;color:#07070c;background:var(--b);
     border:0;border-radius:999px;cursor:pointer;box-shadow:0 0 30px #ffd23f66}
+  #mus{position:fixed;right:16px;bottom:16px;z-index:6;display:flex;align-items:center;gap:.6em;padding:.6em 1.1em;
+    font:800 .8rem system-ui;letter-spacing:.2em;color:#fff;background:#ffffff14;border:1px solid #ffffff33;border-radius:999px;
+    cursor:pointer;backdrop-filter:blur(6px)}
+  #mus:hover{background:#ffd23f;color:#07070c}
+  #mus .eq{display:inline-flex;gap:2px;align-items:flex-end;height:12px}
+  #mus .eq i{width:3px;height:3px;background:currentColor}
+  #mus.on .eq i{animation:eq .5s ease-in-out infinite alternate}
+  #mus.on .eq i:nth-child(2){animation-delay:.15s}#mus.on .eq i:nth-child(3){animation-delay:.3s}
+  @keyframes eq{to{height:12px}}
+  #yt{position:fixed;width:1px;height:1px;left:-10px;top:-10px;opacity:0;pointer-events:none}
   #fx{position:fixed;inset:0;pointer-events:none;z-index:5}
   .cd{display:flex;gap:clamp(10px,3vw,28px);justify-content:center}
   .u{min-width:clamp(70px,18vw,140px);padding:18px 8px;border-radius:18px;background:#ffffff0d;
@@ -63,6 +73,7 @@
 </head>
 <body>
 <canvas id="s"></canvas><canvas id="fx"></canvas>
+<button id="mus" aria-label="Muzyka"><span class="eq"><i></i><i></i><i></i></span><span id="mt">SOUNDTRACK</span></button><div id="yt"></div>
 <div class="tag">Top secret · ściśle tajne · clearance level: wódka</div>
 <div class="ph">PROJECT HORIZON</div>
 <h1 data-t="D.A.N.I.E.L">D.A.N.I.E.L</h1>
@@ -95,6 +106,13 @@ function finale(){
   $("sub").textContent="Witamy w Polsce, mordo. Mission accomplished.";
   $("snd").onclick=landing;confetti();
 }
+// muzyka: YouTube (Polish Cow), start po kliknięciu – autoplay jest blokowany
+let yt,ytOn=false;
+window.onYouTubeIframeAPIReady=()=>{yt=new YT.Player("yt",{videoId:"8pIpi1HDEhU",
+  playerVars:{loop:1,playlist:"8pIpi1HDEhU",controls:0,playsinline:1},
+  events:{onStateChange:e=>{ytOn=e.data===1;$("mus").classList.toggle("on",ytOn);$("mt").textContent=ytOn?"PAUSE":"SOUNDTRACK"}}})};
+(()=>{const t=document.createElement("script");t.src="https://www.youtube.com/iframe_api";document.head.append(t)})();
+$("mus").onclick=()=>{if(!yt||!yt.playVideo)return;ytOn?yt.pauseVideo():(yt.setVolume(70),yt.playVideo())};
 // konfetti
 function confetti(){
   const c=$("fx"),x=c.getContext("2d"),C=["#ff3b3b","#ffd23f","#fff","#DC143C","#012169","#0ff"];let P=[],t0=performance.now();
