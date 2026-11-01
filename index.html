@@ -110,7 +110,7 @@ const $=id=>document.getElementById(id),p=n=>String(n).padStart(2,"0");
 const FR='<a href="https://www.flightradar24.com/data/flights/fr1834" target="_blank" rel="noopener">FlightRadar ↗</a>';
 let stLast="";
 function status(now){
-  const t=now<DAY?"🧳 STATUS: PACKING · FR1834 · STN 14:10 → WMI 17:25"
+  const t=now<DAY?"⏳ STATUS: WAITING · FR1834 · STN 14:10 → WMI 17:25"
     :now<OFF?"🛂 STATUS: CHECK-IN · BOARDING SOON · FR1834 STN 14:10"
     :"✈️ STATUS: IN THE AIR · FR1834 → MODLIN 17:25 · "+FR;
   if(t!==stLast){$("st").innerHTML=t;$("st").classList.toggle("air",now>=OFF);stLast=t}
