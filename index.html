@@ -187,8 +187,6 @@ function tick(){
 }
 function finale(){
   // cyberpunk: glitch strony → digital rain + terminal → neonowy DANIEL + taśmy → wyłączenie jak CRT → ekran finału
-  if(AFTER||(!q&&sessionStorage.getItem("cy"))){settle();confetti(false);return}
-  try{sessionStorage.setItem("cy","1")}catch(e){}
   const o=document.createElement("div");o.id="cy";o.innerHTML='<canvas></canvas><div class="term cur"></div>';document.body.append(o);
   const N=["#ff2a6d","#05d9e8","#f9f002","#39ff14","#d1f7ff"],rnd=a=>a[Math.random()*a.length|0];
   document.body.classList.add("jit");setTimeout(()=>document.body.classList.remove("jit"),700);
