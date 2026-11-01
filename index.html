@@ -20,10 +20,10 @@
   html{height:100%}
   body{background:radial-gradient(ellipse at top,#1b1030 0%,var(--bg) 60%);color:#fff;
     font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;display:flex;flex-direction:column;
-    align-items:center;justify-content:center;text-align:center;overflow-x:hidden;padding:24px;min-height:100%}
+    align-items:center;justify-content:center;text-align:center;overflow-x:hidden;padding:24px 24px 84px;min-height:100%}
   canvas{position:fixed;inset:0;z-index:-1}
   .tag{letter-spacing:.5em;font-size:.8rem;color:var(--b);text-transform:uppercase;opacity:.85}
-  h1{font-size:clamp(2.6rem,10vw,7rem);font-weight:900;line-height:.95;margin:.1em 0 .25em;letter-spacing:.04em;
+  h1{font-size:clamp(2.6rem,10vw,7rem);font-weight:900;line-height:.95;margin:.35em 0 .3em;letter-spacing:.04em;
     background:linear-gradient(90deg,var(--a),var(--b),var(--a));background-size:200%;
     -webkit-background-clip:text;background-clip:text;color:transparent;animation:sh 6s linear infinite;
     text-shadow:0 0 60px rgba(255,59,59,.25)}
@@ -33,7 +33,7 @@
   .acr b{color:var(--b);font-weight:900;transition:text-shadow .3s,color .3s}
   .acr b.hit{color:#fff;text-shadow:0 0 12px #ffd23f,0 0 24px #ff3b3b}
   h1{animation:sh 6s linear infinite,float 4s ease-in-out infinite,breathe 3s ease-in-out infinite}
-  @keyframes float{50%{transform:translateY(-8px)}}
+  @keyframes float{0%,100%{transform:translateY(3px)}50%{transform:translateY(-3px)}}
   @keyframes breathe{50%{filter:drop-shadow(0 0 22px rgba(255,59,59,.55)) drop-shadow(0 0 40px rgba(255,210,63,.25))}}
   .sub{font-size:clamp(1rem,3vw,1.4rem);opacity:.8;margin-bottom:2.2rem}
   .route{display:flex;align-items:center;gap:14px;justify-content:center;font-weight:800;
