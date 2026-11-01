@@ -202,16 +202,15 @@ function finale(){
   const lines=['> INCOMING TRANSMISSION <span class="c">// FR1834 STN→WMI</span>','> TOUCHDOWN CONFIRMED <span class="c">[MODLIN]</span>',
     '> SCANNING PASSENGER .........','> IDENTITY: <span class="r">D.A.N.I.E.L</span> [MATCH 100%]','> THREAT LEVEL: <span class="r">██████████ NAJEBANY</span>','> ACCESS GRANTED_'];
   const term=o.querySelector(".term");let li=0;
-  const type=()=>{if(li>=lines.length)return;const full=lines[li],plain=full.replace(/<[^>]+>/g,"");let k=0;const row=document.createElement("div");term.append(row);
+  const type=()=>{if(li>=lines.length){setTimeout(neon,2000);return}const full=lines[li],plain=full.replace(/<[^>]+>/g,"");let k=0;const row=document.createElement("div");term.append(row);
     const t=setInterval(()=>{k+=2;row.textContent=plain.slice(0,k);if(k>=plain.length){clearInterval(t);row.innerHTML=full;li++;setTimeout(type,120)}},14)};
   setTimeout(type,500);
-  // neon DANIEL
-  setTimeout(()=>{term.remove();o.insertAdjacentHTML("beforeend",'<div class="neon"><div class="nw" data-t="DANIEL">DANIEL</div><div class="id">IDENTITY CONFIRMED // IN DA HOUSE</div></div>'+
+  // neon DANIEL – 2 s po ostatniej linii terminala, potem 3,2 s neonu i wyjście
+  const neon=()=>{term.remove();try{window.cyDrop&&cyDrop()}catch(e){}o.insertAdjacentHTML("beforeend",'<div class="neon"><div class="nw" data-t="DANIEL">DANIEL</div><div class="id">IDENTITY CONFIRMED // IN DA HOUSE</div></div>'+
     '<div class="tape t1"><span>'+"⚠ ARRIVAL DETECTED ⚠ FR1834 ⚠ MODLIN ⚠ ".repeat(8)+'</span></div><div class="tape t2"><span>'+"⚠ NAJEBANY IS EXPECTED LATER ⚠ ".repeat(8)+'</span></div>');
-    requestAnimationFrame(()=>o.classList.add("tp"))},3100);
-  // wyjście
-  setTimeout(()=>{o.classList.add("off");settle();confetti(true)},6300);
-  setTimeout(()=>{clearInterval(rain);o.remove()},6900);
+    requestAnimationFrame(()=>o.classList.add("tp"));
+    setTimeout(()=>{o.classList.add("off");settle();confetti(true)},3200);
+    setTimeout(()=>{clearInterval(rain);o.remove()},3800)};
 }
 function settle(){
   document.body.classList.add("done");document.title="🍻 DANIEL IS IN DA HOUSE";
@@ -273,10 +272,10 @@ function cyber(){
   const A=new (window.AudioContext||window.webkitAudioContext)(),t0=A.currentTime;
   for(let i=0;i<22;i++){const o=A.createOscillator(),g=A.createGain(),t=t0+i*.06+Math.random()*.03;o.type="square";
     o.frequency.value=300+Math.random()*1800;g.gain.setValueAtTime(.06,t);g.gain.exponentialRampToValueAtTime(.001,t+.05);o.connect(g).connect(A.destination);o.start(t);o.stop(t+.06)}
-  const d=t0+3.1,o=A.createOscillator(),f=A.createBiquadFilter(),g=A.createGain();o.type="sawtooth";
+  window.cyDrop=()=>{const d=A.currentTime,o=A.createOscillator(),f=A.createBiquadFilter(),g=A.createGain();o.type="sawtooth";
   o.frequency.setValueAtTime(160,d);o.frequency.exponentialRampToValueAtTime(35,d+1.6);f.type="lowpass";f.frequency.value=900;
   g.gain.setValueAtTime(0,d);g.gain.linearRampToValueAtTime(.5,d+.05);g.gain.exponentialRampToValueAtTime(.001,d+2.4);
-  o.connect(f).connect(g).connect(A.destination);o.start(d);o.stop(d+2.5);
+  o.connect(f).connect(g).connect(A.destination);o.start(d);o.stop(d+2.5);};
 }
 function landing(){
   const A=new (window.AudioContext||window.webkitAudioContext)(),now=A.currentTime;
