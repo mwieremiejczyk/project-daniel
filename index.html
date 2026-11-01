@@ -60,6 +60,8 @@
   #mus{position:fixed;right:16px;bottom:16px;z-index:6;display:flex;align-items:center;gap:.6em;padding:.6em 1.1em;
     font:800 .8rem system-ui;letter-spacing:.2em;color:#fff;background:#ffffff14;border:1px solid #ffffff33;border-radius:999px;
     cursor:pointer;backdrop-filter:blur(6px)}
+  #mus.hint{animation:hint 1.2s ease-in-out infinite}
+  @keyframes hint{50%{border-color:#ffd23f;box-shadow:0 0 18px #ffd23f88}}
   #mus:hover{background:#ffd23f;color:#07070c}
   #mus .eq{display:inline-flex;gap:2px;align-items:flex-end;height:12px}
   #mus .eq i{width:3px;height:3px;background:currentColor}
@@ -142,13 +144,20 @@ function finale(){
   function flash(b){if(!b)return;b.classList.add("hit");setTimeout(()=>b.classList.remove("hit"),900)}
   function glitch(ms){h.classList.add("gl");setTimeout(()=>h.classList.remove("gl"),ms)}
 })();
-// muzyka: YouTube (nowy), start po kliknięciu – autoplay jest blokowany
-let yt,ytOn=false;
+// muzyka: YouTube; próba autostartu (desktop czasem pozwala), inaczej start przy pierwszym dotknięciu/kliknięciu gdziekolwiek
+let yt,ytOn=false,ytReady=false,userPaused=false,want=false;
+const play=()=>{if(!ytReady){want=true;return}yt.setVolume(70);yt.playVideo()};
 window.onYouTubeIframeAPIReady=()=>{yt=new YT.Player("yt",{videoId:"yuKU-Vcwspk",
   playerVars:{loop:1,playlist:"yuKU-Vcwspk",controls:0,playsinline:1},
-  events:{onStateChange:e=>{ytOn=e.data===1;$("mus").classList.toggle("on",ytOn);$("mt").textContent=ytOn?"PAUSE":"SOUNDTRACK"}}})};
+  events:{onReady:()=>{ytReady=true;play()},
+    onStateChange:e=>{ytOn=e.data===1;$("mus").classList.toggle("on",ytOn);$("mt").textContent=ytOn?"PAUSE":"SOUNDTRACK";
+      if(ytOn)$("mus").classList.remove("hint")}}})};
 (()=>{const t=document.createElement("script");t.src="https://www.youtube.com/iframe_api";document.head.append(t)})();
-$("mus").onclick=()=>{if(!yt||!yt.playVideo)return;ytOn?yt.pauseVideo():(yt.setVolume(70),yt.playVideo())};
+$("mus").classList.add("hint");
+$("mus").onclick=e=>{e.stopPropagation();if(ytOn){userPaused=true;yt.pauseVideo()}else{userPaused=false;play()}};
+const first=e=>{if($("mus").contains(e.target))return;["pointerdown","keydown","touchend"].forEach(t=>removeEventListener(t,first,true));
+  if(!ytOn&&!userPaused)play()};
+["pointerdown","keydown","touchend"].forEach(t=>addEventListener(t,first,true));
 // konfetti
 function confetti(){
   const c=$("fx"),x=c.getContext("2d"),C=["#ff3b3b","#ffd23f","#fff","#DC143C","#012169","#0ff"];let P=[],t0=performance.now();
