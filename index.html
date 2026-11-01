@@ -30,7 +30,11 @@
   @keyframes sh{to{background-position:200%}}
   .ph{font-size:clamp(1.1rem,4vw,2rem);font-weight:300;letter-spacing:.6em;margin-top:1.2rem;margin-right:-.6em;opacity:.9}
   .acr{font-size:clamp(.8rem,2.4vw,1.05rem);letter-spacing:.15em;text-transform:uppercase;opacity:.7;margin-bottom:.8rem}
-  .acr b{color:var(--b);font-weight:900}
+  .acr b{color:var(--b);font-weight:900;transition:text-shadow .3s,color .3s}
+  .acr b.hit{color:#fff;text-shadow:0 0 12px #ffd23f,0 0 24px #ff3b3b}
+  h1{animation:sh 6s linear infinite,float 4s ease-in-out infinite,breathe 3s ease-in-out infinite}
+  @keyframes float{50%{transform:translateY(-8px)}}
+  @keyframes breathe{50%{filter:drop-shadow(0 0 22px rgba(255,59,59,.55)) drop-shadow(0 0 40px rgba(255,210,63,.25))}}
   .sub{font-size:clamp(1rem,3vw,1.4rem);opacity:.8;margin-bottom:2.2rem}
   .route{display:flex;align-items:center;gap:14px;justify-content:center;font-weight:800;
     font-size:clamp(1rem,3.5vw,1.6rem);margin-bottom:2.5rem;width:min(640px,100%)}
@@ -39,8 +43,10 @@
   .city{display:inline-flex;align-items:center;gap:.45em}
   .flag{width:1.6em;height:auto;border-radius:3px;box-shadow:0 0 0 1px #fff3}
   h1{position:relative}
-  .done h1::before,.done h1::after{content:attr(data-t);position:absolute;inset:0;-webkit-text-fill-color:currentColor;
+  .done h1::before,.done h1::after,h1.gl::before,h1.gl::after{content:attr(data-t);position:absolute;inset:0;-webkit-text-fill-color:currentColor;
     background:none;text-shadow:none;pointer-events:none}
+  h1.gl::before{color:#0ff;mix-blend-mode:screen;animation:g1 .25s infinite steps(2)}
+  h1.gl::after{color:#f0f;mix-blend-mode:screen;animation:g2 .2s infinite steps(2)}
   .done h1::before{color:#0ff;mix-blend-mode:screen;animation:g1 .9s infinite steps(2)}
   .done h1::after{color:#f0f;mix-blend-mode:screen;animation:g2 .7s infinite steps(2)}
   @keyframes g1{0%{transform:translate(0);clip-path:inset(0 0 70% 0)}25%{transform:translate(-6px,2px);clip-path:inset(40% 0 30% 0)}
@@ -127,6 +133,15 @@ function finale(){
   $("st").classList.remove("air");
   $("snd").onclick=landing;confetti();
 }
+// animacja tytułu: dekodowanie liter jak w filmie szpiegowskim, potem co kilka sekund glitch
+(()=>{const h=document.querySelector("h1"),F="D.A.N.I.E.L",G="#$%&@!?/<>*01XZ",B=[...document.querySelectorAll(".acr b")];
+  let lock=0,f=0;
+  const run=setInterval(()=>{f++;if(f%3===0&&lock<F.length){if(F[lock]!==".")flash(B[[...F.slice(0,lock)].filter(c=>c!==".").length]);lock++}
+    h.textContent=[...F].map((c,i)=>i<lock||c==="."?c:G[Math.random()*G.length|0]).join("");
+    if(lock>=F.length){clearInterval(run);h.textContent=F;glitch(500);setInterval(()=>glitch(220+Math.random()*250),5000+Math.random()*3000)}},45);
+  function flash(b){if(!b)return;b.classList.add("hit");setTimeout(()=>b.classList.remove("hit"),900)}
+  function glitch(ms){h.classList.add("gl");setTimeout(()=>h.classList.remove("gl"),ms)}
+})();
 // muzyka: YouTube (nowy), start po kliknięciu – autoplay jest blokowany
 let yt,ytOn=false;
 window.onYouTubeIframeAPIReady=()=>{yt=new YT.Player("yt",{videoId:"yuKU-Vcwspk",
