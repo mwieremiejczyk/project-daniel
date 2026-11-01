@@ -118,7 +118,9 @@
   .status a{color:#fff}
   .status.air{animation:blink 1.4s ease-in-out infinite}
   @keyframes blink{50%{border-color:#ffd23f;box-shadow:0 0 24px #ffd23f55}}
-  .foot{margin-top:1.5rem;opacity:.5;font-size:.85rem}
+  .nw{white-space:nowrap}
+  .status{line-height:1.7}
+  .foot{line-height:1.6;margin-top:1.5rem;opacity:.5;font-size:.85rem}
   .done h1{animation:sh 1.2s linear infinite}
   /* ekran po lądowaniu – cyberpunk na stałe */
   body.done{--a:#ff2a6d;--b:#05d9e8;background:radial-gradient(ellipse at top,#1a0420 0%,#020208 65%);padding-top:64px}
@@ -158,7 +160,7 @@
   <div class="u"><div class="n" id="sec">--</div><div class="l">seconds</div></div>
 </div>
 <div class="status" id="st"></div>
-<div class="foot">29.11.2026 · 17:25 · Stansted → Modlin · No more fish &amp; chips, czas na pierogi.</div>
+<div class="foot"><span class="nw">29.11.2026 · 17:25 · Stansted → Modlin</span><br><span class="nw">No more fish &amp; chips, czas na pierogi.</span></div>
 <script>
 const q=+new URLSearchParams(location.search).get("test");
 // FR1834: Stansted 29.11 14:10 (UK) = 15:10 PL → Modlin 17:25 PL. Powrót FR1835: 06.12 12:15 PL. Test finału: ?test=10 (sekund).
@@ -170,9 +172,9 @@ const $=id=>document.getElementById(id),p=n=>String(n).padStart(2,"0");
 const FR='<a href="https://www.flightradar24.com/data/flights/fr1834" target="_blank" rel="noopener">FlightRadar ↗</a>';
 let stLast="";
 function status(now){
-  const t=now<DAY?"⏳ STATUS: WAITING · FR1834 · STN 14:10 → WMI 17:25"
-    :now<OFF?"🛂 STATUS: CHECK-IN · BOARDING SOON · FR1834 STN 14:10"
-    :"✈️ STATUS: IN THE AIR · FR1834 → MODLIN 17:25 · "+FR;
+  const t=now<DAY?"⏳ STATUS: WAITING · FR1834<br><span class=nw>STN 14:10 → WMI 17:25</span>"
+    :now<OFF?"🛂 STATUS: CHECK-IN · BOARDING SOON<br><span class=nw>FR1834 · STN 14:10</span>"
+    :"✈️ STATUS: IN THE AIR · FR1834<br><span class=nw>→ MODLIN 17:25 · "+FR+"</span>";
   if(t!==stLast){$("st").innerHTML=t;$("st").classList.toggle("air",now>=OFF);stLast=t}
 }
 function tick(){
@@ -217,7 +219,7 @@ function settle(){
   $("cd").innerHTML='<div><div class="win">🍻 DANIEL IS IN DA HOUSE 🍻</div><button id="snd">🔊 TOUCHDOWN</button></div>';
   const left=BACK-(AFTER?Date.parse("2026-11-29T18:00:00+01:00"):Date.now()),dd=Math.ceil(left/864e5);
   $("sub").textContent=left>0?"Witamy w Polsce, mordo. Mission accomplished.":"Mission complete. See you next time, Daniel 🫡";
-  $("st").innerHTML=left>0?"🇵🇱 STATUS: ON THE GROUND · powrót FR1835 06.12"+(dd>0?" · zostało "+dd+(dd===1?" dzień":" dni"):""):"🇬🇧 STATUS: BACK IN LONDON";
+  $("st").innerHTML=left>0?"🇵🇱 STATUS: ON THE GROUND<br><span class=nw>powrót FR1835 06.12"+(dd>0?" · zostało "+dd+(dd===1?" dzień":" dni"):"")+"</span>":"🇬🇧 STATUS: BACK IN LONDON";
   $("st").classList.remove("air");
   $("snd").onclick=landing;
   if(!$("rn")){
