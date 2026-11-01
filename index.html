@@ -143,7 +143,8 @@
 // Cel: 29.11.2026 00:00 czasu warszawskiego. Godzinę lądowania zmień tutaj. Test finału: ?test=10 (sekund).
 const q=+new URLSearchParams(location.search).get("test");
 // FR1834: Stansted 29.11 14:10 (UK) = 15:10 PL → Modlin 17:25 PL. Powrót FR1835: 06.12 12:15 PL. Test finału: ?test=10 (sekund).
-const T=q?Date.now()+q*1000:Date.parse("2026-11-29T17:25:00+01:00"),
+const AFTER=new URLSearchParams(location.search).has("po");
+const T=AFTER?Date.now()-1000:q?Date.now()+q*1000:Date.parse("2026-11-29T17:25:00+01:00"),
   OFF=q?T-30000:Date.parse("2026-11-29T15:10:00+01:00"),DAY=q?T-60000:Date.parse("2026-11-29T00:00:00+01:00"),
   BACK=Date.parse("2026-12-06T12:15:00+01:00");
 const $=id=>document.getElementById(id),p=n=>String(n).padStart(2,"0");
@@ -166,7 +167,7 @@ function tick(){
 }
 function finale(){
   // cyberpunk: glitch strony → digital rain + terminal → neonowy DANIEL + taśmy → wyłączenie jak CRT → ekran finału
-  if(!q&&sessionStorage.getItem("cy")){settle();confetti(false);return}
+  if(AFTER||(!q&&sessionStorage.getItem("cy"))){settle();confetti(false);return}
   try{sessionStorage.setItem("cy","1")}catch(e){}
   const o=document.createElement("div");o.id="cy";o.innerHTML='<canvas></canvas><div class="term cur"></div>';document.body.append(o);
   const N=["#ff2a6d","#05d9e8","#f9f002","#39ff14","#d1f7ff"],rnd=a=>a[Math.random()*a.length|0];
@@ -198,7 +199,7 @@ function finale(){
 function settle(){
   document.body.classList.add("done");document.title="🍻 DANIEL IS IN DA HOUSE";
   $("cd").innerHTML='<div><div class="win">🍻 DANIEL IS IN DA HOUSE 🍻</div><button id="snd">🔊 TOUCHDOWN</button></div>';
-  const left=BACK-Date.now(),dd=Math.ceil(left/864e5);
+  const left=BACK-(AFTER?Date.parse("2026-11-29T18:00:00+01:00"):Date.now()),dd=Math.ceil(left/864e5);
   $("sub").textContent=left>0?"Witamy w Polsce, mordo. Mission accomplished.":"Mission complete. See you next time, Daniel 🫡";
   $("st").innerHTML=left>0?"🇵🇱 STATUS: ON THE GROUND · powrót FR1835 06.12"+(dd>0?" · zostało "+dd+(dd===1?" dzień":" dni"):""):"🇬🇧 STATUS: BACK IN LONDON";
   $("st").classList.remove("air");
