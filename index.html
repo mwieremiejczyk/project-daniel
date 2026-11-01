@@ -106,10 +106,10 @@ function finale(){
   $("sub").textContent="Witamy w Polsce, mordo. Mission accomplished.";
   $("snd").onclick=landing;confetti();
 }
-// muzyka: YouTube (Polish Cow), start po kliknięciu – autoplay jest blokowany
+// muzyka: YouTube (syberia2 – serce), start po kliknięciu – autoplay jest blokowany
 let yt,ytOn=false;
-window.onYouTubeIframeAPIReady=()=>{yt=new YT.Player("yt",{videoId:"8pIpi1HDEhU",
-  playerVars:{loop:1,playlist:"8pIpi1HDEhU",controls:0,playsinline:1},
+window.onYouTubeIframeAPIReady=()=>{yt=new YT.Player("yt",{videoId:"w67NN6fEG1w",
+  playerVars:{loop:1,playlist:"w67NN6fEG1w",controls:0,playsinline:1},
   events:{onStateChange:e=>{ytOn=e.data===1;$("mus").classList.toggle("on",ytOn);$("mt").textContent=ytOn?"PAUSE":"SOUNDTRACK"}}})};
 (()=>{const t=document.createElement("script");t.src="https://www.youtube.com/iframe_api";document.head.append(t)})();
 $("mus").onclick=()=>{if(!yt||!yt.playVideo)return;ytOn?yt.pauseVideo():(yt.setVolume(70),yt.playVideo())};
